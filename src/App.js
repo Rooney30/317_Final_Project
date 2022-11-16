@@ -17,8 +17,6 @@ import { type } from "@testing-library/user-event/dist/type";
 import ViewPhoto from "./SearchCard";
 import Search from "./SearchResults";
 
-const cards = [1, 2, 3, 4, 5];
-
 const theme = createTheme();
 
 function App() {
@@ -43,7 +41,8 @@ function App() {
       body: JSON.stringify({ 
         content: elephant,
         type: "image/jpeg",
-        title: 'React POST Request Example' })
+        title: 'Title',
+        description: 'this is the description'})
     }
 
     console.log(requestOptions);
@@ -56,8 +55,6 @@ function App() {
       });
   }
 
-  
-
 console.log(credentials != null);
 
   return (
@@ -65,8 +62,6 @@ console.log(credentials != null);
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppBar changeQuery={setQuery} query={query} />
-        <Search user={"110177814948114251935"} query={query} credentials={credentials} />
-
         <div className="googleAuth">
           <GoogleOAuthProvider clientId="396157439888-1skjn5ivt7l8u0dpenl02kf3s17nn2tv.apps.googleusercontent.com">
             <GoogleLogin onSuccess={responseGoogle}></GoogleLogin>
@@ -99,43 +94,10 @@ console.log(credentials != null);
               <Button onClick={uploadPhoto} variant="contained">Upload photo</Button>
             </Container>
           </Box>
-          <Container sx={{ py: 8 }} maxWidth="md">
-
-
-
-            <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  >
-                    <CardMedia
-                      component="img"
-                      sx={{
-                        pt: '0%',
-                      }}
-                      image="https://source.unsplash.com/random"
-                      alt="random"
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Heading
-                      </Typography>
-                      <Typography>
-                        This is a media card. You can use this section to describe the
-                        content.
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-
-
-
-          </Container>
+          
         </main>
       </ThemeProvider>
+        <Search user={"110177814948114251935"} query={query} credentials={credentials} />
     </div>
   );
 }

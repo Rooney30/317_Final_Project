@@ -21,7 +21,7 @@ const Search = ({ user, query, credentials }) => {
     }
     searchPhoto();
 
-  }, [query]);
+  }, [query, credentials]);
 
   if (!searchResults) return null;
 
