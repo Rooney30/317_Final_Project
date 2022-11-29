@@ -8,6 +8,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Alert } from '@mui/material';
 
+
+// function for the upload button. Creates dialog that allows user to upload a new photo with a title, description, and file.
  function UploadFormDialog(props) {
     const [open, setOpen] = React.useState(false);
     const [imageContent, setImageContent] = React.useState(null);
