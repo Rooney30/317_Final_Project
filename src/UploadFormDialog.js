@@ -12,8 +12,9 @@ import Stack from '@mui/material/Stack';
 
 
 
- function UploadFormDialog() {
+ function UploadFormDialog(props) {
     const [open, setOpen] = React.useState(false);
+    const [imageContent, setImageContent] = React.useState(null);
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -25,39 +26,50 @@ import Stack from '@mui/material/Stack';
 
     const titleRef = React.useRef(null);
     const descriptionRef = React.useRef(null);
+    const photoRef = React.useRef(null);
+
     
+    const handleFileRead = async (event) => {
+        const file = event.target.files[0]
+        const base64 = await convertBase64(file)
+        setImageContent({content: base64, type: event.target.files[0].type})
+      }
 
-
+    const convertBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+          const fileReader = new FileReader();
+          console.log(file)
+          fileReader.readAsDataURL(file)
+          fileReader.onload = () => {
+            resolve(fileReader.result);
+          }
+          fileReader.onerror = (error) => {
+            reject(error);
+          }
+        })
+      }
     async function uploadPhoto() {
 
-        // console.log(credentials)
-        console.log(titleRef.current.value)
-        console.log(descriptionRef.current.value)
-        // if (credentials == null) return;
-
-
-        
+        const requestOptions = {
+          headers: {
+            'Authorization': `Bearer ${props.credentials.credential}`,
+            'Content-Type': "application/json"
+          },
+          method: 'POST',
+          body: JSON.stringify({ 
+            content: imageContent.content.split(';base64,')[1],
+            type: imageContent.type,
+            title: titleRef.current.value, 
+            description: descriptionRef.current.value})
+        }
     
-        // const requestOptions = {
-        //   headers: {
-        //     'Authorization': `Bearer ${credentials.credential}`,
-        //     'Content-Type': "application/json"
-        //   },
-        //   method: 'POST',
-        //   body: JSON.stringify({ 
-        //     content: elephant,
-        //     type: "image/jpeg",
-        //     title: 'React POST Request Example' })
-        // }
     
-        // console.log(requestOptions);
-    
-        // await fetch('https://create-photo-prod-xa25gjzsgq-uc.a.run.app/', requestOptions)
-        //   .then(response => response.json())
-        //   .then(data => console.log(data))
-        //   .catch(e => {
-        //     console.error(e)
-        //   });
+        await fetch('https://create-photo-prod-xa25gjzsgq-uc.a.run.app/', requestOptions)
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch(e => {
+            console.error(e)
+          });
       }
   
     return (
@@ -92,7 +104,7 @@ import Stack from '@mui/material/Stack';
               inputRef={descriptionRef}
             />
             
-    <Stack direction="row" alignItems="center" spacing={2}>
+    {/* <Stack direction="row" alignItems="center" spacing={2}>
       <Button variant="contained" component="label">
         Upload Photo
         <input hidden accept="image/*" multiple type="file" />
@@ -101,7 +113,20 @@ import Stack from '@mui/material/Stack';
         <input hidden accept="image/*" type="file" />
         <PhotoCamera />
       </IconButton>
-    </Stack>
+    </Stack> */}
+
+        <TextField
+                id="originalFileName"
+                type="file"
+                inputProps={{ accept: 'image/*, .xlsx, .xls, .csv, .pdf, .pptx, .pptm, .ppt' }}
+                required
+                label="Document"
+                name="originalFileName"
+                onChange={handleFileRead}
+                size="small"
+                variant="standard"
+                inputRef={photoRef}
+              />
 
 
           </DialogContent>
