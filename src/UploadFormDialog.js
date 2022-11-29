@@ -70,6 +70,7 @@ import Stack from '@mui/material/Stack';
           .catch(e => {
             console.error(e)
           });
+          handleClose()
       }
   
     return (
