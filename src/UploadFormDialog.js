@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -6,15 +6,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import Stack from '@mui/material/Stack';
-
-
+import { Alert } from '@mui/material';
 
  function UploadFormDialog(props) {
     const [open, setOpen] = React.useState(false);
     const [imageContent, setImageContent] = React.useState(null);
+    const [errorMsg, setErrorMsg] = React.useState("");
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -22,6 +19,8 @@ import Stack from '@mui/material/Stack';
   
     const handleClose = () => {
       setOpen(false);
+      setErrorMsg("");
+      setImageContent(null);
     };
 
     const titleRef = React.useRef(null);
@@ -49,6 +48,23 @@ import Stack from '@mui/material/Stack';
         })
       }
     async function uploadPhoto() {
+        if (props.credentials === null) {
+            setErrorMsg("You must be signed in.");
+            return;
+        }
+        if (imageContent == null) {
+            setErrorMsg("You must select an image.");
+            return;
+        }
+        if (!titleRef?.current.value) {
+            setErrorMsg("You must specify a title.");
+            return;
+        }
+        if (!descriptionRef?.current.value) {
+            setErrorMsg("You must specify a description.");
+            return;
+        }
+        
 
         const requestOptions = {
           headers: {
@@ -66,9 +82,19 @@ import Stack from '@mui/material/Stack';
     
         await fetch('https://create-photo-prod-xa25gjzsgq-uc.a.run.app/', requestOptions)
           .then(response => response.json())
-          .then(data => console.log(data))
+          .then(data => {
+            if (data.success)
+            {
+                console.log(data);
+                handleClose();
+            }
+            else{
+            setErrorMsg(data.reason);
+        }
+        })
           .catch(e => {
-            console.error(e)
+            console.error(e);
+            setErrorMsg("An error occured.");
           });
       }
   
@@ -80,12 +106,14 @@ import Stack from '@mui/material/Stack';
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Upload Photo</DialogTitle>
           <DialogContent>
+            {errorMsg ? <Alert severity='error'>{errorMsg}</Alert> : null}
             <DialogContentText>
               Select photo file to upload, title, and description for the photo.
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
+              required
               id="title"
               label="Photo Title"
               type="text"
@@ -99,22 +127,11 @@ import Stack from '@mui/material/Stack';
               id="description"
               label="Photo Description"
               type="text"
+              required
               fullWidth
               variant="standard"
               inputRef={descriptionRef}
             />
-            
-    {/* <Stack direction="row" alignItems="center" spacing={2}>
-      <Button variant="contained" component="label">
-        Upload Photo
-        <input hidden accept="image/*" multiple type="file" />
-      </Button>
-      <IconButton color="primary" aria-label="upload picture" component="label">
-        <input hidden accept="image/*" type="file" />
-        <PhotoCamera />
-      </IconButton>
-    </Stack> */}
-
         <TextField
                 id="originalFileName"
                 type="file"
@@ -127,8 +144,6 @@ import Stack from '@mui/material/Stack';
                 variant="standard"
                 inputRef={photoRef}
               />
-
-
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
