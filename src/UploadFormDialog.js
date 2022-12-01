@@ -109,7 +109,7 @@ import { Alert } from '@mui/material';
           <DialogTitle>Upload Photo</DialogTitle>
           <DialogContent>
             {errorMsg ? <Alert severity='error'>{errorMsg}</Alert> : null}
-            <DialogContentText>
+            <DialogContentText data-testid="description">
               Select photo file to upload, title, and description for the photo.
             </DialogContentText>
             <TextField
