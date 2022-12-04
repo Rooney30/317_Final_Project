@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor, modal } from '@testing-library/react';
 import App from './App';
 import userEvent from '@testing-library/user-event';
-//import { eventWrapper } from '@testing-library/user-event/dist/utils';
+// import { eventWrapper } from '@testing-library/user-event/dist/utils';
 import UploadFormDialog from './UploadFormDialog';
 
 test('Renders our app', () => {
@@ -13,39 +13,47 @@ test('Renders our app', () => {
 test('See if upload button exists', async () => {
   render(<App />);
   const button = screen.getByText('Upload Photo');
-  expect(button.toBeInTheDocument);
+  expect(button).toBeInTheDocument();
 });
 
-// const Button = ({onClick, children}) => (
-//   <button onClick={onClick}>{children}</button>
-// )
+test('See if cancel button exists', async () => {
+  render(<UploadFormDialog/>);
+  const button = screen.getByRole("button")
+  fireEvent.click(button)
+  const button2 = screen.getByTestId('Cancel');
+  expect(button2).toBeInTheDocument();
+});
 
-// test('Calls handleClickOpen prop when clicked', () => {
-//   const handleClickOpen = jest.fn()
-//   render(<Button variant="outlined" onClick={handleClickOpen}>Upload Photo</Button>)
-//   fireEvent.click(screen.getByText('Upload Photo'))
-//   expect(handleClickOpen).toHaveBeenCalledTimes(1)
-// });
+test('See if Upload button exists', async () => {
+  render(<UploadFormDialog/>);
+  const button = screen.getByRole("button")
+  fireEvent.click(button)
+  const button2 = screen.getByTestId('Upload');
+  expect(button2).toBeInTheDocument();
+});
 
-// test('pop up test', async () => {
-//   render(<App />);
-//   const button = screen.getByRole("button");
-//   userEvent.click(button);
-//   expect(screen.getByText("Select Photo"));
-// });
+test('See if title box exists', async () => {
+  render(<UploadFormDialog/>);
+  const button = screen.getByRole("button")
+  fireEvent.click(button)
+  const textbox = screen.getByText('Photo Title');
+  expect(textbox).toBeInTheDocument();
+});
 
-// test('pop up test', async () => {
-//   render(<App />);
-//   fireEvent.click(screen.getByRole("button", {name:"Upload Photo"}));
-//   expect(screen.getByText("Select Photo"));
-// });
+test('See if description box exists', async () => {
+  render(<UploadFormDialog/>);
+  const button = screen.getByRole("button")
+  fireEvent.click(button)
+  const textbox = screen.getByText('Photo Description');
+  expect(textbox).toBeInTheDocument();
+});
 
 test('pop up test', async () => {
-  render(<UploadFormDialog />);
+  render(<UploadFormDialog/>);
   const button = screen.getByRole("button")
-  userEvent.click(button)
+  fireEvent.click(button)
   const element = screen.getByTestId('description')
-    expect(element).toBeInTheDocument()
+  expect(element).toBeInTheDocument()
 });
 
 // test('Click sign in', () => {
@@ -78,13 +86,6 @@ test('pop up test', async () => {
 //   const button = container.querySelector('button')
 // });
 
-
-
-//const uploadFormDialogSpy = jest.spyOn(UploadFormDialog, 'UploadFormDialog')
-
-// uploadFormDialogSpy.mockImplementation(()=>{
-//   return(<div data-testid="UploadFormDialog"></div>)
-// })
 
 
 

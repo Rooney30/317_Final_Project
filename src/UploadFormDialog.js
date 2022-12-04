@@ -148,8 +148,8 @@ import { Alert } from '@mui/material';
               />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={uploadPhoto}>Upload</Button>
+            <Button data-testid='Cancel' onClick={handleClose}>Cancel</Button>
+            <Button data-testid='Upload' onClick={uploadPhoto}>Upload</Button>
           </DialogActions>
         </Dialog>
       </div>
