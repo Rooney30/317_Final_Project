@@ -56,6 +56,12 @@ test('pop up test', async () => {
   expect(element).toBeInTheDocument()
 });
 
+test('See if search box exists', async () => {
+  render(<App />);
+  const searchBox = screen.getByTestId("SearchBox")
+  expect(searchBox).toBeInTheDocument();
+});
+
 // test('Click sign in', () => {
 //   render(<App />);
 //   fireEvent.click(screen.getByText('Upload Photo'));
