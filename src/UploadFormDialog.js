@@ -109,7 +109,7 @@ import { Alert } from '@mui/material';
           <DialogTitle>Upload Photo</DialogTitle>
           <DialogContent>
             {errorMsg ? <Alert severity='error'>{errorMsg}</Alert> : null}
-            <DialogContentText>
+            <DialogContentText data-testid="description">
               Select photo file to upload, title, and description for the photo.
             </DialogContentText>
             <TextField
@@ -148,8 +148,8 @@ import { Alert } from '@mui/material';
               />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={uploadPhoto}>Upload</Button>
+            <Button data-testid='Cancel' onClick={handleClose}>Cancel</Button>
+            <Button data-testid='Upload' onClick={uploadPhoto}>Upload</Button>
           </DialogActions>
         </Dialog>
       </div>

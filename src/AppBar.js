@@ -67,7 +67,7 @@ export default (props) => {
           >
             Photo Gallery
           </Typography>
-          <Search>
+          <Search data-testid='SearchBox'>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
