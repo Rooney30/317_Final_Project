@@ -3,6 +3,7 @@ import App from './App';
 import userEvent from '@testing-library/user-event';
 // import { eventWrapper } from '@testing-library/user-event/dist/utils';
 import UploadFormDialog from './UploadFormDialog';
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 test('Renders our app', () => {
   render(<App />);
@@ -68,6 +69,39 @@ test('See if google sign in box exists', async () => {
   expect(signInBox).toBeInTheDocument();
 });
 
+test('test sign in process', () => {
+  render(<App />);
+  const signInBox = screen.getByTestId("GoogleSignIn")
+  signInBox.click();
+  fireEvent.click(signInBox);
+  
+  
+  //expect().toHaveBeenCalledTimes(1);
+});
+
+test('Calls onSubmit with username and Password when submitted', () => {
+  const onSubmit = jest.fn();
+  const { getByTestId } = render(
+    <MemoryRouter>
+      <Login onSubmit={onSubmit} />
+    </MemoryRouter>
+  );
+
+  const form = getByTestId("GoogleSignIn");
+
+  expect(onSubmit).not.toHaveBeenCalled();
+
+  fireEvent.submit(form, {
+    target: {
+      values: {
+        email: "se317teamCPKK@gmail.com",
+        password: "@bc12345",
+      },
+    },
+  });
+});
+
+  expect(onSubmit).toHaveBeenCalledTimes(1);
 // test('Click sign in', () => {
 //   render(<App />);
 //   fireEvent.click(screen.getByText('Upload Photo'));
