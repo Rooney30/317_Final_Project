@@ -62,6 +62,12 @@ test('See if search box exists', async () => {
   expect(searchBox).toBeInTheDocument();
 });
 
+test('See if google sign in box exists', async () => {
+  render(<App />);
+  const signInBox = screen.getByTestId("GoogleSignIn")
+  expect(signInBox).toBeInTheDocument();
+});
+
 // test('Click sign in', () => {
 //   render(<App />);
 //   fireEvent.click(screen.getByText('Upload Photo'));

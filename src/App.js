@@ -35,7 +35,7 @@ console.log(credentials != null);
         <AppBar changeQuery={setQuery} query={query} />
         <Search user={"110177814948114251935"} query={query} credentials={credentials} />
 
-        <div className="googleAuth">
+        <div data-testid='GoogleSignIn' className="googleAuth">
           <GoogleOAuthProvider clientId="396157439888-1skjn5ivt7l8u0dpenl02kf3s17nn2tv.apps.googleusercontent.com">
             <GoogleLogin onSuccess={responseGoogle}></GoogleLogin>
           </GoogleOAuthProvider>
