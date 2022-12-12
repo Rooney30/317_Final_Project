@@ -21,8 +21,12 @@ To search a photo:
 2. All photos containing that keyword, or related keywords will be returned.
 3. Example: with the keyword 'elephant' all photos containing elephants will be returned!
 
+To run tests:
+1. Make sure you have npm installed. (instructions can be found online)
+2. Might have to run "npm install jest"
+3. Might have to run "npm install--save-dev @testing-library/react"
+4. Might have to run "npm install react-scripts"
+5. Run "npm test"
 
-
-
-
-
+Here is a screenshot of the tests running and passing if you can not get them to run
+![image](https://user-images.githubusercontent.com/103701369/207160715-63574d90-a61a-4e29-9500-91837e58b3e6.png)
